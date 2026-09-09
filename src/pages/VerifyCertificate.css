@@ -1,0 +1,23 @@
+.verify {
+  max-width: 640px;
+  padding: clamp(32px, 5vw, 56px);
+  margin-inline: auto;
+  background-color: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.verify__title {
+  font-size: clamp(1.375rem, 2.6vw, 1.75rem);
+}
+
+.verify .lead {
+  margin-bottom: 12px;
+  color: var(--gold-dark);
+  font-weight: 500;
+}
+
+.verify p:not(.lead) {
+  margin-bottom: 28px;
+}

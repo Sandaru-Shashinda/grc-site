@@ -1,0 +1,91 @@
+/* Hero ---------------------------------------------------------------- */
+
+.hero {
+  padding: clamp(64px, 10vw, 128px) 0;
+  background:
+    linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
+  text-align: center;
+}
+
+.hero__inner {
+  max-width: 860px;
+}
+
+.hero__title {
+  margin-bottom: 24px;
+}
+
+.hero__text {
+  font-size: 1.0625rem;
+  margin-bottom: 32px;
+}
+
+.hero__actions {
+  justify-content: center;
+}
+
+/* Let's talk about GRC ------------------------------------------------- */
+
+.about-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(32px, 6vw, 72px);
+}
+
+.about-strip__media img {
+  width: 100%;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+/* Verify certificate band ---------------------------------------------- */
+
+.verify-band__inner {
+  max-width: 640px;
+  text-align: center;
+}
+
+.verify-band__inner .lead {
+  margin-bottom: 28px;
+}
+
+/* Gallery -------------------------------------------------------------- */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.gallery__item {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.gallery__item img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.gallery__item:hover img {
+  transform: scale(1.04);
+}
+
+@media (max-width: 860px) {
+  .about-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .about-strip__media {
+    order: -1;
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+}

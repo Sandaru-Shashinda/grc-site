@@ -1,0 +1,16 @@
+.page-hero {
+  padding: clamp(48px, 7vw, 84px) 0;
+  background-color: var(--cream);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.page-hero__title {
+  margin: 0;
+}
+
+.page-hero__subtitle {
+  max-width: 660px;
+  margin: 16px auto 0;
+  font-size: 1.0625rem;
+}

@@ -1,0 +1,33 @@
+.service-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(32px, 6vw, 72px);
+}
+
+.service-row--reversed .service-row__content {
+  order: 2;
+}
+
+.service-row__media img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 860px) {
+  .service-row,
+  .service-row--reversed {
+    grid-template-columns: 1fr;
+  }
+
+  .service-row--reversed .service-row__content {
+    order: 0;
+  }
+
+  .service-row__media {
+    order: -1;
+  }
+}
