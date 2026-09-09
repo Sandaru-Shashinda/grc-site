@@ -1,23 +1,223 @@
 .verify {
-  max-width: 640px;
-  padding: clamp(32px, 5vw, 56px);
-  margin-inline: auto;
-  background-color: var(--cream);
+  max-width: 680px;
+}
+
+.verify__card {
+  padding: clamp(28px, 5vw, 52px);
+  background-color: var(--white);
   border: 1px solid var(--border);
+  border-top: 4px solid var(--gold);
   border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
   text-align: center;
 }
 
 .verify__title {
   font-size: clamp(1.375rem, 2.6vw, 1.75rem);
-}
-
-.verify .lead {
   margin-bottom: 12px;
-  color: var(--gold-dark);
-  font-weight: 500;
 }
 
-.verify p:not(.lead) {
-  margin-bottom: 28px;
+.verify__intro {
+  margin-bottom: 32px;
+}
+
+/* Lookup form ----------------------------------------------------------- */
+
+.verify__form {
+  text-align: left;
+}
+
+.verify__label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.verify__row {
+  display: flex;
+  gap: 12px;
+}
+
+.verify__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 14px 18px;
+  font-family: inherit;
+  font-size: 1.0625rem;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  background-color: var(--white);
+  border: 1px solid rgba(15, 23, 42, 0.25);
+  border-radius: 6px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.verify__input::placeholder {
+  color: rgba(15, 23, 42, 0.4);
+  letter-spacing: normal;
+}
+
+.verify__input:hover:not(:disabled) {
+  border-color: rgba(220, 165, 74, 0.65);
+}
+
+.verify__input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(220, 165, 74, 0.15);
+}
+
+.verify__input[aria-invalid="true"] {
+  border-color: #cf2e2e;
+}
+
+.verify__input:disabled {
+  background-color: rgba(15, 23, 42, 0.03);
+  cursor: not-allowed;
+}
+
+.verify__submit {
+  flex: 0 0 auto;
+}
+
+.verify__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.verify__hint {
+  margin: 10px 0 0;
+  font-size: 0.8125rem;
+  color: rgba(74, 74, 74, 0.85);
+}
+
+/* Result states ---------------------------------------------------------- */
+
+.verify__result {
+  margin-top: 28px;
+  padding: 20px 24px;
+  border-radius: 6px;
+  text-align: left;
+}
+
+.verify__result p {
+  margin-bottom: 8px;
+}
+
+.verify__result p:last-child {
+  margin-bottom: 0;
+}
+
+.verify__result--invalid {
+  background-color: rgba(207, 46, 46, 0.06);
+  border: 1px solid rgba(207, 46, 46, 0.3);
+}
+
+.verify__result--error {
+  background-color: rgba(15, 23, 42, 0.04);
+  border: 1px solid var(--border);
+}
+
+.verify__small {
+  font-size: 0.875rem;
+}
+
+.verify__badge {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.verify__badge--valid {
+  background-color: #0b7a52;
+  color: var(--white);
+}
+
+.verify__badge--invalid {
+  background-color: rgba(207, 46, 46, 0.12);
+  color: #a11f1f;
+}
+
+/* Verified panel --------------------------------------------------------- */
+
+.verify__card--verified {
+  border-top-color: #0b7a52;
+}
+
+.verify__summary {
+  display: grid;
+  gap: 0;
+  margin: 24px 0 28px;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.verify__summary > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 14px 20px;
+  background-color: var(--cream);
+  border-bottom: 1px solid var(--border);
+}
+
+.verify__summary > div:last-child {
+  border-bottom: 0;
+}
+
+.verify__summary dt {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--body-text);
+}
+
+.verify__summary dd {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--navy);
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.verify__redirecting {
+  margin-bottom: 24px;
+  font-size: 0.9375rem;
+  color: var(--gold-dark);
+}
+
+.verify__actions {
+  justify-content: center;
+}
+
+@media (max-width: 560px) {
+  .verify__row {
+    flex-direction: column;
+  }
+
+  .verify__submit {
+    width: 100%;
+  }
+
+  .verify__summary > div {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .verify__summary dd {
+    text-align: left;
+  }
 }

@@ -21,7 +21,7 @@ npm run preview
 | `/about`                | About               | Est. 2025, founder, mission, vision, services     |
 | `/services`             | Services            | Three services, alternating rows                  |
 | `/contact`              | Contact             | Details, message form, Google Maps embed          |
-| `/verify-certificate`   | Verify Certificate  | Placeholder — matches the live site               |
+| `/verify-certificate`   | Verify Certificate  | Looks a certificate up in gem_tracker_api          |
 | `/post`                 | Posts               | Empty state; no posts published yet               |
 | `/category/:slug`       | Posts (filtered)    | `blog`, `grc-news`, `uncategorized`               |
 | `*`                     | Not found           |                                                   |
@@ -56,12 +56,41 @@ Taken from the live Astra theme globals, defined in `src/index.css`:
 
 Typeface is Montserrat, loaded from Google Fonts in `index.html`.
 
+## Certificate verification
+
+`/verify-certificate` takes the number printed on a report, confirms it against
+`gem_tracker_api`, and then sends the visitor to the full report view — the same
+page the certificate's QR code opens.
+
+```
+grc.lk/verify-certificate
+  └─ GET {VITE_API_BASE_URL}/reports/{number}/verify
+       └─ { _id, reportId, gemId, identification, … }
+            └─ redirect to {VITE_REPORT_VIEW_URL}/reports/{_id}
+```
+
+Two numbers are accepted, both case-insensitively:
+
+| Number         | Field             | Format               | Who uses it        |
+| -------------- | ----------------- | -------------------- | ------------------ |
+| GRC Number     | `gem.gemId`       | `GRC-YYYY-MM-NNNNN`  | Printed on the certificate — what customers have |
+| Report number  | `report.reportId` | `REP-YYYY-MM-NNNNN`  | Internal reference |
+
+Configure both endpoints in `.env` (see [`.env.example`](.env.example)):
+
+```
+VITE_API_BASE_URL=https://gem-tracker-six.vercel.app/api
+VITE_REPORT_VIEW_URL=https://gemological-report-ceylon.vercel.app
+```
+
+`VITE_REPORT_VIEW_URL` must match the origin whose QR codes are printed on
+certificates, so a typed-in number and a scanned QR land on the same page.
+
 ## Known gaps
 
 - **Contact form** validates client-side and simulates a send. Wire the
   `handleSubmit` in [`src/pages/Contact.tsx`](src/pages/Contact.tsx) to a real
   endpoint before going live.
-- **Certificate verification** is a placeholder, mirroring the current live page.
 - **Posts** are an empty array in `src/data/site.ts`; the listing renders its empty
   state until posts are added or a CMS is connected.
 
