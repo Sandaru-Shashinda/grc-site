@@ -1,6 +1,7 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
 import PageHero from "../components/PageHero";
 import { site } from "../data/site";
+import { ContactValidationError, sendContactMessage } from "../lib/api";
 import "./Contact.css";
 
 type Fields = {
@@ -8,12 +9,16 @@ type Fields = {
   phone: string;
   email: string;
   message: string;
+  /** Honeypot — hidden from people, filled in by scripted submissions. */
+  website: string;
 };
 
-type Errors = Partial<Record<keyof Fields, string>>;
+type Errors = Partial<Record<"name" | "phone" | "email" | "message", string>>;
 
-const EMPTY: Fields = { name: "", phone: "", email: "", message: "" };
+const EMPTY: Fields = { name: "", phone: "", email: "", message: "", website: "" };
 const REQUIRED_MESSAGE = "This field is required.";
+const GENERIC_ERROR =
+  "There was an error trying to submit your form. Please try again.";
 
 function validate(values: Fields): Errors {
   const errors: Errors = {};
@@ -31,10 +36,17 @@ export default function Contact() {
   const [values, setValues] = useState<Fields>(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState(GENERIC_ERROR);
+  const abortRef = useRef<AbortController | null>(null);
+
+  // Abandon an in-flight submission if the visitor navigates away mid-request.
+  useEffect(() => () => abortRef.current?.abort(), []);
 
   function update(field: keyof Fields, value: string) {
     setValues((current) => ({ ...current, [field]: value }));
-    setErrors((current) => ({ ...current, [field]: undefined }));
+    if (field !== "website") {
+      setErrors((current) => ({ ...current, [field]: undefined }));
+    }
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -47,13 +59,27 @@ export default function Contact() {
       return;
     }
 
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     setStatus("sending");
     try {
-      // TODO: point this at the GRC contact endpoint once the API is available.
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      await sendContactMessage(values, controller.signal);
       setValues(EMPTY);
       setStatus("sent");
-    } catch {
+    } catch (error) {
+      if (controller.signal.aborted) return;
+
+      // The API validates the same fields again. When it disagrees with us, its
+      // messages belong under the fields rather than in the notice at the top.
+      if (error instanceof ContactValidationError) {
+        setErrors(error.errors);
+        setStatus("idle");
+        return;
+      }
+
+      setErrorMessage(error instanceof Error ? error.message : GENERIC_ERROR);
       setStatus("error");
     }
   }
@@ -67,7 +93,7 @@ export default function Contact() {
         <div className="container">
           <h2 className="section-title contact-heading">Get in Touch</h2>
           <div className="contact-cards">
-            <article className="contact-card">
+            <article className="contact-card" data-reveal>
               <h3 className="contact-card__title">Contact Number</h3>
               <p className="contact-card__label">General Inquiries</p>
               <a href={site.phoneHref} className="contact-card__value">
@@ -75,14 +101,14 @@ export default function Contact() {
               </a>
             </article>
 
-            <article className="contact-card">
+            <article className="contact-card" data-reveal style={{ "--reveal-delay": "100ms" } as CSSProperties}>
               <h3 className="contact-card__title">Email</h3>
               <a href={`mailto:${site.email}`} className="contact-card__value">
                 {site.email}
               </a>
             </article>
 
-            <article className="contact-card">
+            <article className="contact-card" data-reveal style={{ "--reveal-delay": "200ms" } as CSSProperties}>
               <h3 className="contact-card__title">Business Hours</h3>
               <ul className="contact-card__hours">
                 {site.hours.map((entry) => (
@@ -99,7 +125,7 @@ export default function Contact() {
 
       {/* Message form ------------------------------------------------------ */}
       <section className="section section--cream">
-        <div className="container contact-form-wrap">
+        <div className="container contact-form-wrap" data-reveal>
           <h2 className="section-title contact-heading">Send Us a Message</h2>
 
           {status === "sent" && (
@@ -109,11 +135,26 @@ export default function Contact() {
           )}
           {status === "error" && (
             <p className="form__notice form__notice--error" role="alert">
-              There was an error trying to submit your form. Please try again.
+              {errorMessage}
             </p>
           )}
 
           <form className="form" onSubmit={handleSubmit} noValidate>
+            {/* Honeypot. Hidden from sight and from assistive technology, and
+                skipped by the tab order, so only a script ever fills it in. */}
+            <div className="form__honeypot" aria-hidden="true">
+              <label htmlFor="website">Website</label>
+              <input
+                id="website"
+                name="website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={values.website}
+                onChange={(event) => update("website", event.target.value)}
+              />
+            </div>
+
             <div className="form__field">
               <label htmlFor="name" className="form__label">
                 Name <span aria-hidden="true">*</span>

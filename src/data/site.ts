@@ -20,6 +20,11 @@ export const navigation: NavItem[] = [
   },
 ];
 
+/** Footer-only links — kept out of the primary navigation. */
+export const legalLinks: NavItem[] = [
+  { label: "Terms & Conditions", path: "/terms-and-conditions" },
+];
+
 export const site = {
   name: "GRC",
   fullName: "Gemological Report of Ceylon",
@@ -79,13 +84,5 @@ export const categories: Category[] = [
   { slug: "uncategorized", label: "Uncategorized" },
 ];
 
-export type Post = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  category: string;
-};
-
-/** No posts published on grc.lk yet — the listing renders its empty state. */
-export const posts: Post[] = [];
+/* Posts are no longer held here — they come from the laboratory API. See
+   `PublishedPost` and `fetchPublishedPosts` in ../lib/api. */

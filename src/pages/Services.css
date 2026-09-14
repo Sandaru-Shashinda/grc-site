@@ -2,19 +2,29 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: clamp(32px, 6vw, 72px);
+  gap: clamp(36px, 6vw, 80px);
 }
 
 .service-row--reversed .service-row__content {
   order: 2;
 }
 
+.service-row__content .btn {
+  margin-top: 12px;
+}
+
 .service-row__media img {
   width: 100%;
   aspect-ratio: 3 / 2;
   object-fit: cover;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
+  transition: transform 0.6s var(--ease-out), box-shadow 0.6s var(--ease);
+}
+
+.service-row__media:hover img {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
 }
 
 @media (max-width: 860px) {

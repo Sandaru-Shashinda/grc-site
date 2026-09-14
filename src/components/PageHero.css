@@ -1,8 +1,25 @@
 .page-hero {
-  padding: clamp(48px, 7vw, 84px) 0;
+  position: relative;
+  padding: clamp(64px, 9vw, 116px) 0 clamp(56px, 8vw, 96px);
   background-color: var(--cream);
-  border-bottom: 1px solid var(--border);
   text-align: center;
+  overflow: hidden;
+}
+
+/* A soft wash into the page below, in place of a hard divider rule. */
+.page-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 120px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--white) 100%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.page-hero .container {
+  position: relative;
+  z-index: 1;
 }
 
 .page-hero__title {
@@ -11,6 +28,10 @@
 
 .page-hero__subtitle {
   max-width: 660px;
-  margin: 16px auto 0;
-  font-size: 1.0625rem;
+  margin: 20px auto 0;
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  letter-spacing: -0.012em;
+  color: var(--muted);
+  text-wrap: pretty;
 }

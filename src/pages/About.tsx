@@ -1,7 +1,11 @@
+import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import PageHero from "../components/PageHero";
 import { services } from "../data/site";
 import "./About.css";
+
+/** Staggers a revealed block behind the one before it. */
+const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
 
 export default function About() {
   return (
@@ -10,7 +14,7 @@ export default function About() {
 
       {/* Established in 2025 ---------------------------------------------- */}
       <section className="section">
-        <div className="container about-intro">
+        <div className="container about-intro" data-reveal>
           <h2 className="section-title">Established in 2025</h2>
           <p className="lead about-intro__statement">
             The Gemological Report of Ceylon is a professional gem certification and
@@ -36,7 +40,7 @@ export default function About() {
 
       {/* Founder ----------------------------------------------------------- */}
       <section className="section section--cream">
-        <div className="container founder">
+        <div className="container founder" data-reveal>
           <span className="eyebrow">Founder</span>
           <h3 className="founder__name">Milinda Edirisinghe</h3>
           <p>
@@ -54,7 +58,7 @@ export default function About() {
       {/* Mission & Vision --------------------------------------------------- */}
       <section className="section">
         <div className="container mission-grid">
-          <article className="mission-card">
+          <article className="mission-card" data-reveal>
             <h2 className="mission-card__title">Mission</h2>
             <p>
               To deliver accurate, independent, and professional gemological
@@ -63,7 +67,7 @@ export default function About() {
               every customer.
             </p>
           </article>
-          <article className="mission-card">
+          <article className="mission-card" data-reveal style={delay(120)}>
             <h2 className="mission-card__title">Vision</h2>
             <p>
               To be a globally respected gemological authority from Sri Lanka,
@@ -76,7 +80,7 @@ export default function About() {
 
       {/* Services list ------------------------------------------------------ */}
       <section className="section section--cream-deep">
-        <div className="container about-services">
+        <div className="container about-services" data-reveal>
           <h2 className="section-title">Services</h2>
           <ul className="about-services__list">
             {services.map((service) => (

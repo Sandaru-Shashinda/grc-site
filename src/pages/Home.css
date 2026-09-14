@@ -1,23 +1,51 @@
 /* Hero ---------------------------------------------------------------- */
 
 .hero {
-  padding: clamp(64px, 10vw, 128px) 0;
-  background:
-    linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
+  position: relative;
+  padding: clamp(88px, 13vw, 168px) 0 clamp(76px, 11vw, 140px);
+  background: linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
   text-align: center;
+  overflow: hidden;
+}
+
+/* A faint gold bloom behind the headline — palette colours only. */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -28%;
+  left: 50%;
+  width: min(1000px, 130%);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle,
+    rgba(220, 165, 74, 0.16) 0%,
+    rgba(220, 165, 74, 0) 62%
+  );
+  pointer-events: none;
 }
 
 .hero__inner {
-  max-width: 860px;
+  position: relative;
+  z-index: 1;
+  max-width: 880px;
 }
 
 .hero__title {
   margin-bottom: 24px;
+  font-size: clamp(2.75rem, 7.2vw, 4.5rem);
+  letter-spacing: -0.042em;
+  line-height: 1.02;
 }
 
 .hero__text {
-  font-size: 1.0625rem;
-  margin-bottom: 32px;
+  max-width: 660px;
+  margin: 0 auto 40px;
+  font-size: 1.1875rem;
+  line-height: 1.62;
+  letter-spacing: -0.012em;
+  color: var(--muted);
+  text-wrap: pretty;
 }
 
 .hero__actions {
@@ -30,24 +58,28 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: clamp(32px, 6vw, 72px);
+  gap: clamp(36px, 6vw, 80px);
+}
+
+.about-strip__content .btn {
+  margin-top: 12px;
 }
 
 .about-strip__media img {
   width: 100%;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
 }
 
 /* Verify certificate band ---------------------------------------------- */
 
 .verify-band__inner {
-  max-width: 640px;
+  max-width: 680px;
   text-align: center;
 }
 
 .verify-band__inner .lead {
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 }
 
 /* Gallery -------------------------------------------------------------- */
@@ -61,19 +93,25 @@
 .gallery__item {
   margin: 0;
   overflow: hidden;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
+  transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease);
+}
+
+.gallery__item:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
 }
 
 .gallery__item img {
   width: 100%;
   aspect-ratio: 3 / 2;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.7s var(--ease-out);
 }
 
 .gallery__item:hover img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 @media (max-width: 860px) {

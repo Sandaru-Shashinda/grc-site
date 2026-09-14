@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { navigation, site } from "../data/site";
+import { legalLinks, navigation, site } from "../data/site";
 import "./Footer.css";
 
 export default function Footer() {
@@ -31,6 +31,21 @@ export default function Footer() {
         <p className="footer__copyright">
           Copyright © {new Date().getFullYear()} {site.fullName}
         </p>
+
+        <ul className="footer__legal">
+          {legalLinks.map((item) => (
+            <li key={item.path}>
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  `footer__legal-link ${isActive ? "is-active" : ""}`
+                }
+              >
+                {item.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
       </div>
     </footer>
   );

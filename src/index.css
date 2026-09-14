@@ -1,5 +1,8 @@
 /* ==========================================================================
    GRC design tokens — mirrors the palette used on grc.lk (Astra globals)
+   Palette is intentionally unchanged; everything else (type, space, motion,
+   surfaces) follows an Apple-style restraint: tight display type, generous
+   whitespace, soft large-radius surfaces, quiet motion.
    ========================================================================== */
 
 :root {
@@ -12,13 +15,33 @@
   --white: #ffffff;
   --ink: #141004;
 
+  /* Neutral derivations of the palette above — no new hues. */
+  --muted: rgba(74, 74, 74, 0.78);
   --border: rgba(15, 23, 42, 0.12);
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 12px 40px rgba(15, 23, 42, 0.1);
+  --hairline: rgba(15, 23, 42, 0.08);
+  --tint-navy: rgba(15, 23, 42, 0.045);
+  --tint-gold: rgba(220, 165, 74, 0.12);
+  --ring-gold: rgba(220, 165, 74, 0.32);
+
+  /* Soft, diffuse elevation rather than hard drop shadows. */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 20px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 2px 6px rgba(15, 23, 42, 0.05), 0 18px 44px rgba(15, 23, 42, 0.09);
+  --shadow-lg: 0 4px 10px rgba(15, 23, 42, 0.05), 0 32px 72px rgba(15, 23, 42, 0.12);
 
   --content-width: 1200px;
-  --radius: 10px;
+  --content-narrow: 820px;
+
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 980px;
+
   --header-height: 88px;
+  --header-height-sm: 64px;
+
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   --font: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;
@@ -32,18 +55,28 @@
 
 html {
   scroll-behavior: smooth;
+  /* Keep anchor targets clear of the sticky header. */
+  scroll-padding-top: calc(var(--header-height-sm) + 24px);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   font-family: var(--font);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.65;
+  letter-spacing: -0.003em;
   color: var(--body-text);
   background-color: var(--white);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
+
+/* --------------------------------------------------------------------------
+   Typography — display sizes tighten their tracking and leading as they grow.
+   -------------------------------------------------------------------------- */
 
 h1,
 h2,
@@ -51,24 +84,35 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0 0 0.6em;
+  margin: 0 0 0.5em;
   color: var(--navy);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.038em;
 }
+
 h2 {
-  font-size: clamp(1.75rem, 3.6vw, 2.5rem);
+  font-size: clamp(1.875rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
 }
+
 h3 {
   font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+  letter-spacing: -0.018em;
 }
 
 p {
-  margin: 0 0 1.2em;
+  margin: 0 0 1.15em;
 }
 
 p:last-child {
@@ -78,7 +122,7 @@ p:last-child {
 a {
   color: var(--gold-dark);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.25s var(--ease), opacity 0.25s var(--ease);
 }
 
 a:hover {
@@ -92,8 +136,13 @@ img {
 }
 
 ul {
-  margin: 0 0 1.2em;
+  margin: 0 0 1.15em;
   padding-left: 1.25rem;
+}
+
+::selection {
+  background-color: var(--tint-gold);
+  color: var(--navy);
 }
 
 /* --------------------------------------------------------------------------
@@ -108,7 +157,7 @@ ul {
 }
 
 .section {
-  padding: clamp(56px, 8vw, 100px) 0;
+  padding: clamp(72px, 9vw, 128px) 0;
 }
 
 .section--cream {
@@ -121,25 +170,39 @@ ul {
 
 .eyebrow {
   display: block;
-  margin: 0 0 12px;
+  margin: 0 0 14px;
   color: var(--gold-dark);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .section-title {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .lead {
-  font-size: 1.0625rem;
-  color: var(--body-text);
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  letter-spacing: -0.012em;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* A short gold rule used to accent a heading without adding heavy chrome. */
+.rule-gold::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  margin-bottom: 20px;
+  border-radius: var(--radius-pill);
+  background-color: var(--gold);
 }
 
 /* --------------------------------------------------------------------------
-   Buttons
+   Buttons — Apple-style pills, quiet hover, no layout shift between variants.
    -------------------------------------------------------------------------- */
 
 .btn {
@@ -147,45 +210,54 @@ ul {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 14px 32px;
-  border: 2px solid transparent;
-  border-radius: 4px;
+  padding: 13px 28px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
   font-family: inherit;
   font-size: 0.9375rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
   text-align: center;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease,
-    color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease),
+    color 0.25s var(--ease), box-shadow 0.35s var(--ease),
+    transform 0.35s var(--ease-out);
 }
 
 .btn:hover {
   transform: translateY(-1px);
 }
 
+.btn:active {
+  transform: translateY(0) scale(0.985);
+  transition-duration: 0.08s;
+}
+
 .btn--primary {
   background-color: var(--gold);
   border-color: var(--gold);
   color: var(--white);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
 }
 
 .btn--primary:hover {
   background-color: var(--gold-dark);
   border-color: var(--gold-dark);
   color: var(--white);
+  box-shadow: 0 8px 22px rgba(220, 165, 74, 0.32);
 }
 
 .btn--outline {
   background-color: transparent;
-  border-color: var(--gold);
+  border-color: var(--ring-gold);
   color: var(--gold-dark);
 }
 
 .btn--outline:hover {
-  background-color: var(--gold);
-  color: var(--white);
+  background-color: var(--tint-gold);
+  border-color: var(--gold);
+  color: var(--gold-dark);
 }
 
 .btn--dark {
@@ -198,12 +270,37 @@ ul {
   background-color: var(--ink);
   border-color: var(--ink);
   color: var(--white);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.22);
+}
+
+.btn--lg {
+  padding: 16px 36px;
+  font-size: 1rem;
 }
 
 .btn-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal — only armed once the observer is running, so the page still
+   renders fully when JavaScript or IntersectionObserver is unavailable.
+   -------------------------------------------------------------------------- */
+
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
 }
 
 /* --------------------------------------------------------------------------
@@ -218,6 +315,7 @@ ul {
   padding: 12px 20px;
   background: var(--navy);
   color: var(--white);
+  border-radius: 0 0 var(--radius-sm) 0;
 }
 
 .skip-link:focus {
@@ -228,6 +326,7 @@ ul {
 :focus-visible {
   outline: 2px solid var(--gold-dark);
   outline-offset: 3px;
+  border-radius: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -239,5 +338,9 @@ ul {
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+  .reveal-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
 }

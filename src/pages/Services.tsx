@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import PageHero from "../components/PageHero";
 import { services } from "../data/site";
@@ -19,14 +20,18 @@ export default function Services() {
               index % 2 === 1 ? "service-row--reversed" : ""
             }`}
           >
-            <div className="service-row__content">
+            <div className="service-row__content" data-reveal>
               <h2 className="section-title">{service.title}</h2>
               <p>{service.description}</p>
               <Link to="/contact" className="btn btn--primary">
                 Contact
               </Link>
             </div>
-            <div className="service-row__media">
+            <div
+              className="service-row__media"
+              data-reveal
+              style={{ "--reveal-delay": "120ms" } as CSSProperties}
+            >
               <img src={service.image} alt={service.title} loading="lazy" />
             </div>
           </div>

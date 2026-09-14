@@ -6,6 +6,7 @@ import "./Header.css";
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
   /** Navigating always dismisses the mobile drawer and any open submenu. */
@@ -35,8 +36,22 @@ export default function Header() {
     };
   }, []);
 
+  // The bar condenses and gains a hairline once the page leaves the top.
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 8);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="header">
+    <header
+      className={`header ${scrolled ? "is-scrolled" : ""} ${
+        menuOpen ? "is-menu-open" : ""
+      }`}
+    >
       <div className="container header__inner">
         <Link
           to="/"

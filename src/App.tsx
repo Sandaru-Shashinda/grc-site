@@ -7,6 +7,8 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import VerifyCertificate from "./pages/VerifyCertificate";
 import Posts from "./pages/Posts";
+import Terms from "./pages/Terms";
+import PostDetail from "./pages/PostDetail";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
@@ -21,7 +23,9 @@ export default function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="verify-certificate" element={<VerifyCertificate />} />
           <Route path="post" element={<Posts />} />
+          <Route path="post/:slug" element={<PostDetail />} />
           <Route path="category/:slug" element={<Posts />} />
+          <Route path="terms-and-conditions" element={<Terms />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
