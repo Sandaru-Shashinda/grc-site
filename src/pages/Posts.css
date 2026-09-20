@@ -173,6 +173,23 @@
   max-width: 760px;
 }
 
+/* A post that has a cover runs as two columns: the photograph on the left, the
+   article on the right. It needs the full page width to do that, so only such a
+   post widens — without a picture the text keeps the narrow measure that makes
+   it readable. Collapses to one column below, where the markup order takes over
+   and the picture comes first. */
+.post-article--with-cover {
+  max-width: var(--content-width);
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 56px;
+  align-items: start;
+}
+
+.post-article__figure {
+  margin: 0;
+}
+
 .post-article__meta {
   margin-bottom: 28px;
   font-size: 0.75rem;
@@ -182,9 +199,16 @@
   color: var(--gold-dark);
 }
 
+/* The whole photograph is shown, never cropped: it is bounded on both axes and
+   left to keep its own proportions, so a portrait upload comes back narrower
+   than its column rather than taller than the screen. Centred for that case. */
 .post-article__cover {
-  width: 100%;
-  margin-bottom: 36px;
+  display: block;
+  max-width: 100%;
+  max-height: 72vh;
+  width: auto;
+  height: auto;
+  margin-inline: auto;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
 }
@@ -195,10 +219,129 @@
   text-wrap: pretty;
 }
 
+/* Everything below styles the tags the laboratory's editor can produce. The
+   allowlist on the API is the contract: if a tag is not reachable from the
+   toolbar it will never be stored, so it is not styled here either. */
 .post-article__body p {
   margin-bottom: 1.4em;
 }
 
+.post-article__body h2,
+.post-article__body h3 {
+  color: var(--ink);
+  line-height: 1.25;
+  /* Headings sit closer to what follows than to what they interrupt. */
+  margin: 2em 0 0.6em;
+}
+
+.post-article__body h2 {
+  font-size: 1.5rem;
+  letter-spacing: -0.015em;
+}
+
+.post-article__body h3 {
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+}
+
+.post-article__body > :first-child {
+  margin-top: 0;
+}
+
+.post-article__body ul,
+.post-article__body ol {
+  margin: 0 0 1.4em;
+  padding-left: 1.35em;
+}
+
+.post-article__body ul {
+  list-style: disc;
+}
+
+.post-article__body ol {
+  list-style: decimal;
+}
+
+.post-article__body li {
+  margin-bottom: 0.45em;
+}
+
+.post-article__body li::marker {
+  color: var(--gold-dark);
+}
+
+/* A list item may hold paragraphs; they should not re-inherit the block spacing. */
+.post-article__body li > p {
+  margin-bottom: 0.45em;
+}
+
+.post-article__body blockquote {
+  margin: 1.8em 0;
+  padding: 0.2em 0 0.2em 1.25em;
+  border-left: 3px solid var(--gold);
+  color: var(--muted);
+  font-style: italic;
+}
+
+.post-article__body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.post-article__body a {
+  color: var(--gold-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.post-article__body a:hover {
+  color: var(--ink);
+}
+
+.post-article__body strong {
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.post-article__body code {
+  padding: 0.12em 0.4em;
+  border-radius: var(--radius-sm);
+  background: var(--tint-navy);
+  font-size: 0.9em;
+}
+
+.post-article__body pre {
+  margin: 0 0 1.4em;
+  padding: 1em 1.2em;
+  border-radius: var(--radius-sm);
+  background: var(--tint-navy);
+  overflow-x: auto;
+}
+
+.post-article__body pre code {
+  padding: 0;
+  background: none;
+}
+
+.post-article__body hr {
+  margin: 2.4em 0;
+  border: 0;
+  border-top: 1px solid var(--hairline);
+}
+
 .post-article__back {
   margin-top: 44px;
+}
+
+/* Below this the two columns have no room to hold both a picture and a readable
+   line length, so the post stacks: cover first, then the article under it. */
+@media (max-width: 1020px) {
+  .post-article--with-cover {
+    max-width: 760px;
+    display: block;
+  }
+
+  .post-article__figure {
+    margin-bottom: 36px;
+  }
 }

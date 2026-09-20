@@ -18,6 +18,40 @@ type Outcome =
 /** A completed fetch, tagged with the slug it was for — see the note in Posts.tsx. */
 type Result = Outcome & { slug: string | undefined };
 
+/** A body the laboratory's editor wrote carries tags; an older one does not. */
+const isRichText = (body: string) => /<[a-z][\s\S]*>/i.test(body);
+
+/**
+ * The article itself.
+ *
+ * Rich-text bodies are written as HTML, which is only safe because the API
+ * rebuilds every body from a tag allowlist before storing it — the markup here
+ * has already been through that, and nothing else reaches this page. Posts
+ * written before the editor existed are still plain text, so they keep the old
+ * treatment: blank lines are the author's paragraph breaks, and the text is
+ * rendered as text.
+ */
+function PostBody({ body }: { body?: string }) {
+  if (!body) return null;
+
+  if (isRichText(body)) {
+    return (
+      <div
+        className="post-article__body"
+        dangerouslySetInnerHTML={{ __html: body }}
+      />
+    );
+  }
+
+  return (
+    <div className="post-article__body">
+      {body.split(/\n{2,}/).map((paragraph, index) => (
+        <p key={index}>{paragraph}</p>
+      ))}
+    </div>
+  );
+}
+
 export default function PostDetail() {
   const { slug } = useParams();
   const [result, setResult] = useState<Result | null>(null);
@@ -104,39 +138,44 @@ export default function PostDetail() {
       <PageHero title={post.title} />
 
       <article className="section">
-        <div className="container post-article">
-          <p className="post-article__meta">
-            {postDate(post)}
-            {category && (
-              <>
-                {" · "}
-                <Link to={`/category/${category.slug}`}>{category.label}</Link>
-              </>
-            )}
-            {post.author?.name && ` · ${post.author.name}`}
-          </p>
-
+        {/* The cover leads in the markup so that a narrow screen, where the two
+            columns fold into one, reads picture first and article second. */}
+        <div
+          className={
+            post.coverImage
+              ? "container post-article post-article--with-cover"
+              : "container post-article"
+          }
+        >
           {post.coverImage && (
-            <img
-              src={post.coverImage}
-              alt=""
-              className="post-article__cover"
-              loading="lazy"
-            />
+            <figure className="post-article__figure">
+              <img
+                src={post.coverImage}
+                alt=""
+                className="post-article__cover"
+                loading="lazy"
+              />
+            </figure>
           )}
 
-          {/* Stored as plain text, so paragraph breaks are the author's blank lines.
-              Rendering it as text rather than HTML keeps the public page safe from
-              whatever an author pastes in. */}
-          <div className="post-article__body">
-            {post.body
-              ?.split(/\n{2,}/)
-              .map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-          </div>
+          <div className="post-article__content">
+            <p className="post-article__meta">
+              {postDate(post)}
+              {category && (
+                <>
+                  {" · "}
+                  <Link to={`/category/${category.slug}`}>{category.label}</Link>
+                </>
+              )}
+              {post.author?.name && ` · ${post.author.name}`}
+            </p>
 
-          <Link to="/post" className="btn btn--outline post-article__back">
-            Back to Posts
-          </Link>
+            <PostBody body={post.body} />
+
+            <Link to="/post" className="btn btn--outline post-article__back">
+              Back to Posts
+            </Link>
+          </div>
         </div>
       </article>
     </>
