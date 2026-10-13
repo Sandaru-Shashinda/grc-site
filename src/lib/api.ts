@@ -21,7 +21,7 @@ const REPORT_VIEW_URL: string =
 export type VerifiedCertificate = {
   /** Mongo id — addresses the full report view, and is what the QR encodes. */
   _id: string;
-  reportType?: "small" | "medium" | "large" | "verbal";
+  reportType?: "small" | "medium" | "large" | "premium" | "verbal";
   reportId: string;
   gemId: string;
   status?: string;
