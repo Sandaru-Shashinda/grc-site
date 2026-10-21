@@ -137,6 +137,22 @@
   letter-spacing: -0.02em;
 }
 
+.terms-clause__content p + p {
+  margin-top: 12px;
+}
+
+.terms-clause__items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 28px;
+  margin: 14px 0 0;
+  padding-left: 1.25rem;
+}
+
+.terms-clause__items li::marker {
+  color: var(--gold-dark);
+}
+
 /* --------------------------------------------------------------------------
    Closing block
    -------------------------------------------------------------------------- */
@@ -164,6 +180,10 @@
 
   .terms-clause {
     gap: 16px;
+  }
+
+  .terms-clause__items {
+    grid-template-columns: 1fr;
   }
 
   .terms-clause__number {

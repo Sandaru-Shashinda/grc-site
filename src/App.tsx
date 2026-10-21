@@ -4,6 +4,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
+import Reports from "./pages/Reports";
 import Contact from "./pages/Contact";
 import VerifyCertificate from "./pages/VerifyCertificate";
 import Posts from "./pages/Posts";
@@ -20,6 +21,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="services" element={<Services />} />
+          <Route path="reports" element={<Reports />} />
           <Route path="contact" element={<Contact />} />
           <Route path="verify-certificate" element={<VerifyCertificate />} />
           <Route path="post" element={<Posts />} />

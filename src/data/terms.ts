@@ -2,7 +2,10 @@ export type TermsClause = {
   /** Anchor id — also what the on-page contents list links to. */
   id: string;
   title: string;
-  body: string;
+  /** One paragraph, or several rendered in order. */
+  body: string | string[];
+  /** Optional bullet list shown after the body. */
+  items?: string[];
 };
 
 export type TermsSection = {
@@ -17,7 +20,7 @@ export type TermsSection = {
 };
 
 /** Bump whenever the wording below is revised. */
-export const termsUpdated = "September 2026";
+export const termsUpdated = "October 2026";
 
 export const termsSections: TermsSection[] = [
   {
@@ -59,6 +62,16 @@ export const termsSections: TermsSection[] = [
           "The certificate serves as a record of the gemological evaluation performed at the time of examination. It does not constitute a guarantee of future durability, market value, investment value, or resistance to treatments or modifications.",
       },
       {
+        id: "scope-of-examination-and-responsibility",
+        title: "Scope of Examination & Responsibility",
+        body: [
+          "GRC examines the gemstone as a whole; however, the extent of examination, testing, and reporting varies according to the certificate type selected.",
+          "The Verbal Report, Memo Card Certificate, and A5 Certificate cover the specific examinations and assessments listed for each certificate type and do not constitute a comprehensive gemological assessment of all gemstone characteristics and treatments.",
+          "The A4 Full Certificate and Premium Certificate provide more comprehensive gemological assessments in accordance with their respective examination scopes. GRC accepts responsibility for the examinations performed and findings reported within the scope of these certificate types.",
+          "All certificates reflect the findings obtained at the time of examination. Characteristics, treatments, or other features not included in the applicable examination scope are not expressly assessed or confirmed by the certificate. Any changes, treatments, damage, or modifications occurring after examination are not reflected in the original certificate.",
+        ],
+      },
+      {
         id: "reporting-errors",
         title: "Reporting Errors",
         body:
@@ -68,13 +81,13 @@ export const termsSections: TermsSection[] = [
         id: "measurement-variations",
         title: "Measurement Variations",
         body:
-          "Weight, dimensions, and other measurements may vary slightly due to instrument tolerances, environmental conditions, and measurement procedures. Minor variations may occur, typically within ±0.02 g or equivalent measurement tolerance, where applicable.",
+          "Weight, dimensions, and other measurements may vary slightly due to instrument tolerances, environmental conditions, and measurement procedures. Minor variations in weight, dimensions, and other measurements may occur within the applicable tolerances of the instruments and measurement methods used by GRC.",
       },
       {
         id: "borderline-grades",
         title: "Borderline Grades",
         body:
-          "Where the color or clarity of a gemstone falls between two grading categories, GRC may assign the higher grade based on the professional judgment of the examining gemologist and applicable grading standards.",
+          "Where a gemstone exhibits characteristics between two grading categories, the assigned grade shall be determined by the examining gemologist based on the observed characteristics, professional judgment, and applicable grading standards.",
       },
       {
         id: "gemological-evaluation",
@@ -86,7 +99,7 @@ export const termsSections: TermsSection[] = [
         id: "client-responsibility",
         title: "Client Responsibility",
         body:
-          "Clients are responsible for providing accurate information regarding the gemstone submitted for examination. GRC’s evaluation is based on the information provided by the client together with the physical examination and testing conducted by GRC.",
+          "Clients are responsible for providing accurate information regarding the gemstone submitted for examination. GRC’s evaluation is based on the physical examination and testing conducted by the laboratory, together with relevant information provided by the client. GRC does not independently verify all information supplied by the client unless specifically examined or tested.",
       },
       {
         id: "educational-purpose",
@@ -116,7 +129,7 @@ export const termsSections: TermsSection[] = [
         id: "confidentiality",
         title: "Confidentiality",
         body:
-          "Client information and gemstone details are treated as confidential and will not be disclosed to third parties without authorization, except where disclosure is required by applicable law or regulatory requirements.",
+          "Client information and gemstone details shall be treated as confidential and shall not be disclosed to third parties without authorization, except where disclosure is required by applicable law or regulatory requirements, or for legitimate certificate verification and recordkeeping purposes, subject to applicable law.",
       },
       {
         id: "non-transferability",
@@ -132,9 +145,11 @@ export const termsSections: TermsSection[] = [
       },
       {
         id: "liability-limitation",
-        title: "Liability Limitation",
-        body:
-          "To the extent permitted by applicable law, GRC and its employees shall not be liable for losses or damages arising from errors, omissions, interpretations, or limitations associated with the report. Where appropriate, GRC’s responsibility may be limited to reviewing, correcting, or reissuing the certificate.",
+        title: "Limitation of Liability",
+        body: [
+          "GRC conducts gemstone examinations using its available equipment, testing methods, professional expertise, and applicable gemological practices at the time of examination. The report reflects the findings obtained from the examination performed on the submitted gemstone.",
+          "To the extent permitted by applicable law, GRC shall not be responsible for changes, treatments, alterations, damage, or modifications occurring after examination, or for losses arising from the use of the report beyond its stated scope. Any reported discrepancy shall be reviewed by GRC, and appropriate corrective action may be taken where necessary.",
+        ],
       },
       {
         id: "as-is-basis",
@@ -153,6 +168,15 @@ export const termsSections: TermsSection[] = [
         title: "Certificate Validity",
         body:
           "The certificate represents the gemstone as examined on the date stated on the certificate. Any treatment, modification, damage, alteration, or change to the gemstone after the examination date is not reflected in the original report.",
+      },
+      {
+        id: "protection-of-reputation",
+        title: "Protection of Reputation & Legal Action",
+        body: [
+          "GRC reserves the right to take appropriate legal action against any person or party who unlawfully damages its reputation through false or defamatory statements, impersonation, or misuse or falsification of GRC’s name, logo, certificates, or reports.",
+          "Where legally justified, GRC may seek compensation for proven losses and recovery of legal costs, as permitted by applicable Sri Lankan law.",
+          "This section does not prohibit genuine customer complaints, honest opinions, or fair criticism.",
+        ],
       },
     ],
   },
@@ -184,7 +208,83 @@ export const termsSections: TermsSection[] = [
         id: "verification-limitations",
         title: "Verification Limitations",
         body:
-          "Certificate verification confirms that the certificate is genuine and matches GRC’s official records. It does not mean that the gemstone has been examined again or that a new certificate has been issued.",
+          "Certificate verification confirms whether the certificate corresponds to GRC’s official records. Verification alone does not constitute a fresh examination of the gemstone, confirmation of its current condition, or issuance of a new certificate. A physical examination may be required to assess the gemstone’s current characteristics.",
+      },
+    ],
+  },
+  {
+    id: "certificate-types",
+    number: "03",
+    title: "Certificate Types & Examination Scope",
+    intro:
+      "Each certificate provides a defined level of gemological examination and reporting according to the certificate type selected.",
+    numbered: false,
+    clauses: [
+      {
+        id: "verbal-report",
+        title: "Verbal Report",
+        body: "Provides basic gemstone identification:",
+        items: ["Stone Name", "Variety"],
+      },
+      {
+        id: "memo-card-certificate",
+        title: "Memo Card Certificate",
+        body: "Provides basic identification with a photographic record:",
+        items: [
+          "Stone Name",
+          "Variety",
+          "Photograph of the Stone",
+          "Heat Treatment / Unheated",
+          "Emerald: Oil Treatment",
+        ],
+      },
+      {
+        id: "a5-certificate",
+        title: "A5 Certificate",
+        body: "Provides a more detailed examination:",
+        items: [
+          "Stone Name",
+          "Variety",
+          "Clarity",
+          "Heat Treatment / Unheated",
+          "Fracture Filling",
+          "Emerald: Oil Treatment",
+        ],
+      },
+      {
+        id: "a4-full-certificate",
+        title: "A4 Full Certificate",
+        body: "Provides a comprehensive gemological examination:",
+        items: [
+          "Colour",
+          "Clarity",
+          "Species",
+          "Variety",
+          "Gem Origin",
+          "Heat Treatment / Unheated",
+          "Fracture Filling",
+          "Diffusion Treatment",
+          "Irradiation",
+        ],
+      },
+      {
+        id: "premium-certificate",
+        title: "Premium Certificate",
+        body: "Provides the most comprehensive examination and documentation:",
+        items: [
+          "Colour",
+          "Clarity",
+          "Species",
+          "Variety",
+          "Gem Origin",
+          "Heat Treatment / Unheated",
+          "Fracture Filling",
+          "Diffusion Treatment",
+          "Irradiation",
+          "Other Relevant Treatments",
+          "Video Certificate",
+          "Overall Assessment of the Gemstone",
+        ],
       },
     ],
   },

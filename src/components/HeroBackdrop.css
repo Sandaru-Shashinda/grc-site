@@ -1,0 +1,97 @@
+/* Home hero backdrop -------------------------------------------------- */
+
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Fine diamond lattice that fades out behind the headline. */
+.hero-backdrop__lattice {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(220, 165, 74, 0.14) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(-45deg, rgba(220, 165, 74, 0.14) 0 1px, transparent 1px 44px);
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 50%, transparent 30%, #000 100%);
+  mask-image: radial-gradient(ellipse 60% 70% at 50% 50%, transparent 30%, #000 100%);
+}
+
+/* Faceted gem outlines, slowly turning. */
+.hero-backdrop__gem {
+  position: absolute;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 0.7;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.32;
+  animation: hero-gem-turn 120s linear infinite;
+}
+
+.hero-backdrop__gem circle {
+  stroke-width: 1.2;
+}
+
+.hero-backdrop__gem--left {
+  width: clamp(280px, 34vw, 520px);
+  left: clamp(-220px, -9vw, -60px);
+  bottom: clamp(-200px, -11vw, -60px);
+}
+
+.hero-backdrop__gem--right {
+  width: clamp(200px, 24vw, 380px);
+  right: clamp(-150px, -6vw, -40px);
+  top: clamp(-130px, -6vw, -30px);
+  opacity: 0.26;
+  animation-direction: reverse;
+  animation-duration: 150s;
+}
+
+@keyframes hero-gem-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Twinkling sparkles. */
+.hero-backdrop__sparkle {
+  position: absolute;
+  fill: var(--gold);
+  opacity: 0;
+  animation: hero-sparkle 4.8s var(--ease) infinite;
+}
+
+@keyframes hero-sparkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4) rotate(0deg);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1) rotate(45deg);
+  }
+}
+
+@media (max-width: 860px) {
+  .hero-backdrop__gem--left {
+    opacity: 0.2;
+  }
+
+  .hero-backdrop__gem--right {
+    opacity: 0.16;
+  }
+
+  /* Lattice and two gems come first; keep only the first three sparkles. */
+  .hero-backdrop__sparkle:nth-child(n + 7) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-backdrop__sparkle {
+    opacity: 0.5;
+  }
+}

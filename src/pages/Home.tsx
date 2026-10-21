@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import DigitalIntelligence from "../components/DigitalIntelligence";
+import HeroBackdrop from "../components/HeroBackdrop";
+import ReportTiles from "../components/ReportTiles";
 import { revealDelay as delay } from "../hooks/useReveal";
 import "./Home.css";
 
@@ -8,6 +10,7 @@ export default function Home() {
     <>
       {/* Hero ------------------------------------------------------------- */}
       <section className="hero">
+        <HeroBackdrop />
         <div className="container hero__inner">
           <span className="eyebrow hero__eyebrow" data-reveal>
             Gemological Report of Ceylon
@@ -59,11 +62,11 @@ export default function Home() {
           </div>
           <div className="about-strip__media" data-reveal style={delay(120)}>
             <img
-              src="/images/lab-team.jpg"
-              alt="The GRC gemological laboratory team at work"
+              src="/images/grc-portrait.jpg"
+              alt="Portrait of a member of the GRC team"
               loading="lazy"
-              width={768}
-              height={507}
+              width={1024}
+              height={1536}
             />
           </div>
         </div>
@@ -77,6 +80,26 @@ export default function Home() {
           <Link to="/verify-certificate" className="btn btn--primary btn--lg">
             Verify Now
           </Link>
+        </div>
+      </section>
+
+      {/* Reports ----------------------------------------------------------- */}
+      <section className="section">
+        <div className="container">
+          <header className="reports-teaser__head" data-reveal>
+            <div>
+              <span className="eyebrow">Our Reports</span>
+              <h2 className="section-title">A report for every stone</h2>
+              <p className="lead">
+                From a wallet-sized identification card to our Premium Certificate,
+                each report carries a defined examination scope.
+              </p>
+            </div>
+            <Link to="/reports" className="btn btn--outline">
+              Explore Reports
+            </Link>
+          </header>
+          <ReportTiles />
         </div>
       </section>
 

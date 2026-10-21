@@ -65,7 +65,18 @@ export default function Terms() {
                   )}
                   <div className="terms-clause__content">
                     <h3 className="terms-clause__title">{clause.title}</h3>
-                    <p>{clause.body}</p>
+                    {(Array.isArray(clause.body) ? clause.body : [clause.body]).map(
+                      (paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                      )
+                    )}
+                    {clause.items && (
+                      <ul className="terms-clause__items">
+                        {clause.items.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </li>
               ))}
