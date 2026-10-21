@@ -384,7 +384,10 @@
 
 /* Comparison table ------------------------------------------------------- */
 
+/* Positioned so the cells' absolutely placed screen-reader labels are clipped
+   by this scroller — otherwise they widen the whole page on mobile. */
 .compare {
+  position: relative;
   overflow-x: auto;
   border: 1px solid var(--hairline);
   border-radius: var(--radius-lg);

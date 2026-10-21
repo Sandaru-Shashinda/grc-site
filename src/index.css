@@ -39,6 +39,7 @@
 
   --header-height: 88px;
   --header-height-sm: 64px;
+  --dock-height: 64px;
 
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -72,6 +73,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+/* Keep the end of the page clear of the fixed mobile dock. */
+@media (max-width: 921px) {
+  body {
+    padding-bottom: calc(var(--dock-height) + env(safe-area-inset-bottom));
+  }
 }
 
 /* --------------------------------------------------------------------------

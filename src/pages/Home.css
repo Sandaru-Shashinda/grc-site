@@ -31,6 +31,38 @@
   max-width: 880px;
 }
 
+/* Gold rules with a diamond tip on either side of the eyebrow.
+   Scoped under .hero so it outranks the global .eyebrow, which loads later. */
+.hero .hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero__eyebrow::before,
+.hero__eyebrow::after {
+  content: "";
+  width: clamp(28px, 6vw, 64px);
+  height: 7px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M4 0 8 4 4 8 0 4Z' fill='%23dca54a'/%3E%3C/svg%3E")
+      right center / 7px 7px no-repeat,
+    linear-gradient(90deg, transparent, var(--gold)) left center / calc(100% - 10px) 1px
+      no-repeat;
+}
+
+.hero__eyebrow::after {
+  scale: -1 1;
+}
+
+/* No room for the rules beside the eyebrow on phones. */
+@media (max-width: 520px) {
+  .hero__eyebrow::before,
+  .hero__eyebrow::after {
+    display: none;
+  }
+}
+
 .hero__title {
   margin-bottom: 24px;
   font-size: clamp(2.75rem, 7.2vw, 4.5rem);

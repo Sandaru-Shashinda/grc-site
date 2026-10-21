@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import useReveal from "../hooks/useReveal";
 import Header from "./Header";
 import Footer from "./Footer";
+import MobileDock from "./MobileDock";
 
 export default function Layout() {
   useReveal();
@@ -16,6 +17,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <MobileDock />
     </>
   );
 }

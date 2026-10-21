@@ -7,6 +7,35 @@
   overflow: hidden;
 }
 
+/* Soft light falling from above, as through a lab window. */
+.hero-backdrop__rays {
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  width: 160%;
+  height: 140%;
+  transform: translateX(-50%);
+  background: repeating-conic-gradient(
+    from 180deg at 50% 0%,
+    rgba(255, 255, 255, 0) 0deg 7deg,
+    rgba(255, 255, 255, 0.55) 9deg,
+    rgba(255, 255, 255, 0) 11deg 18deg
+  );
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 75%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 75%);
+  opacity: 0.7;
+  animation: hero-rays-sway 18s ease-in-out infinite alternate;
+}
+
+@keyframes hero-rays-sway {
+  from {
+    transform: translateX(-50%) rotate(-3deg);
+  }
+  to {
+    transform: translateX(-50%) rotate(3deg);
+  }
+}
+
 /* Fine diamond lattice that fades out behind the headline. */
 .hero-backdrop__lattice {
   position: absolute;
@@ -18,16 +47,42 @@
   mask-image: radial-gradient(ellipse 60% 70% at 50% 50%, transparent 30%, #000 100%);
 }
 
-/* Faceted gem outlines, slowly turning. */
+/* Graduated microscope reticle framing the headline. */
+.hero-backdrop__reticle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(820px, 135vw);
+  translate: -50% -50%;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.24;
+  animation: hero-gem-turn 240s linear infinite;
+}
+
+.hero-backdrop__reticle * {
+  vector-effect: non-scaling-stroke;
+}
+
+.hero-backdrop__reticle-dash {
+  stroke-dasharray: 2 10;
+}
+
+/* Faceted gem outlines. */
 .hero-backdrop__gem {
   position: absolute;
   fill: none;
   stroke: var(--gold);
   stroke-width: 0.7;
   stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
   opacity: 0.32;
   animation: hero-gem-turn 120s linear infinite;
+}
+
+.hero-backdrop__gem * {
+  vector-effect: non-scaling-stroke;
 }
 
 .hero-backdrop__gem circle {
@@ -49,9 +104,65 @@
   animation-duration: 150s;
 }
 
+/* Smaller cuts float gently rather than turn. */
+.hero-backdrop__gem--emerald {
+  width: clamp(64px, 7vw, 110px);
+  top: 18%;
+  left: clamp(24px, 9vw, 180px);
+  opacity: 0.4;
+  rotate: -14deg;
+  animation: hero-gem-float 9s ease-in-out infinite alternate;
+}
+
+.hero-backdrop__gem--marquise {
+  width: clamp(34px, 3.6vw, 56px);
+  bottom: 16%;
+  right: clamp(32px, 11vw, 220px);
+  opacity: 0.42;
+  rotate: 24deg;
+  animation: hero-gem-float 11s ease-in-out infinite alternate-reverse;
+}
+
 @keyframes hero-gem-turn {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes hero-gem-float {
+  from {
+    transform: translateY(-10px);
+  }
+  to {
+    transform: translateY(12px) rotate(6deg);
+  }
+}
+
+/* Gold specks drifting upward. */
+.hero-backdrop__speck {
+  position: absolute;
+  bottom: -12px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 6px rgba(220, 165, 74, 0.6);
+  opacity: 0;
+  animation: hero-speck-rise linear infinite;
+}
+
+@keyframes hero-speck-rise {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  15% {
+    opacity: 0.55;
+  }
+  85% {
+    opacity: 0.35;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(24px, -420px);
   }
 }
 
@@ -80,12 +191,18 @@
     opacity: 0.2;
   }
 
-  .hero-backdrop__gem--right {
+  .hero-backdrop__gem--right,
+  .hero-backdrop__reticle {
     opacity: 0.16;
   }
 
-  /* Lattice and two gems come first; keep only the first three sparkles. */
-  .hero-backdrop__sparkle:nth-child(n + 7) {
+  .hero-backdrop__gem--emerald,
+  .hero-backdrop__gem--marquise {
+    display: none;
+  }
+
+  .hero-backdrop__speck:nth-of-type(2n),
+  .hero-backdrop__sparkle:nth-last-of-type(-n + 4) {
     display: none;
   }
 }
@@ -93,5 +210,9 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-backdrop__sparkle {
     opacity: 0.5;
+  }
+
+  .hero-backdrop__speck {
+    display: none;
   }
 }
