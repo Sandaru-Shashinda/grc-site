@@ -1,3 +1,5 @@
+import type { ServiceArtKind } from "../components/ServiceArt";
+
 export type NavItem = {
   label: string;
   path: string;
@@ -47,7 +49,9 @@ export type Service = {
   slug: string;
   title: string;
   description: string;
-  image: string;
+  /** Photograph of the service; without one a line-drawn `art` panel is shown. */
+  image?: string;
+  art?: ServiceArtKind;
 };
 
 export const services: Service[] = [
@@ -71,6 +75,20 @@ export const services: Service[] = [
     description:
       "GRC specializes in professional natural pearl testing and certification. Through detailed gemological examination, we identify whether a pearl is natural, cultured, or imitation. Our reports provide confidence and transparency in pearl authenticity.",
     image: "/images/pearls.png",
+  },
+  {
+    slug: "diamond-testing",
+    title: "Diamond Testing",
+    description:
+      "GRC tests diamonds to establish whether a stone is a natural diamond, a laboratory-grown diamond, or a diamond simulant. Each stone is examined with non-destructive gemological methods, and its observable characteristics are recorded, so buyers and sellers can trade with confidence.",
+    art: "diamond",
+  },
+  {
+    slug: "gem-research",
+    title: "GEM Research",
+    description:
+      "Beyond routine testing, GRC carries out gemological research into the stones that pass through our laboratory, with particular attention to Ceylon gemstones. This work builds the reference knowledge behind our identifications and keeps our methods current with new treatments and synthetics.",
+    art: "research",
   },
 ];
 

@@ -1,0 +1,68 @@
+/* Sized and framed like the service photographs it stands in for. */
+.service-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(220, 165, 74, 0.2) 0%, rgba(220, 165, 74, 0) 58%),
+    var(--navy);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.6s var(--ease-out), box-shadow 0.6s var(--ease);
+}
+
+.service-row__media:hover .service-art {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.service-art svg {
+  position: absolute;
+  fill: none;
+  stroke: var(--gold);
+  stroke-linejoin: round;
+}
+
+.service-art svg * {
+  vector-effect: non-scaling-stroke;
+}
+
+.service-art__gem {
+  width: 46%;
+  stroke-width: 1;
+  opacity: 0.85;
+  animation: service-art-turn 120s linear infinite;
+}
+
+.service-art__gem circle {
+  stroke-width: 1.6;
+}
+
+.service-art--research .service-art__gem {
+  width: 34%;
+}
+
+.service-art__reticle {
+  width: 78%;
+  stroke-width: 1;
+  opacity: 0.4;
+}
+
+.service-art__dash {
+  stroke-dasharray: 2 10;
+}
+
+@keyframes service-art-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-art__gem {
+    animation: none;
+  }
+}

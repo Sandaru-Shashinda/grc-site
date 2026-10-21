@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import PageHero from "../components/PageHero";
+import ServiceArt from "../components/ServiceArt";
 import { services } from "../data/site";
 import "./Services.css";
 
@@ -32,7 +33,11 @@ export default function Services() {
               data-reveal
               style={{ "--reveal-delay": "120ms" } as CSSProperties}
             >
-              <img src={service.image} alt={service.title} loading="lazy" />
+              {service.image ? (
+                <img src={service.image} alt={service.title} loading="lazy" />
+              ) : (
+                <ServiceArt kind={service.art ?? "diamond"} />
+              )}
             </div>
           </div>
         </section>
